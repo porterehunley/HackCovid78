@@ -80,13 +80,11 @@ def viewUsers():
 @app.route('/addpost', methods = ['POST'])
 def addPost():
     data = request.get_json() or {}
-    u = User(username=data['username'], email=data['email'], password_hash=data['password'], zip_code=data['zip_code'], 
-        tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'])
+    u = Post(username=data['username'], email=data['email'], rating=data['rating'], body=data['body'])
     db.session.add(u)
     
 @app.route('/addreply', methods = ['POST'])
 def addReply():
     data = request.get_json() or {}
-    u = User(username=data['username'], email=data['email'], password_hash=data['password'], zip_code=data['zip_code'], 
-        tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'])
+    u = Reply(username=data['username'], email=data['email'], rating=data['rating'], body=data['body'])
     db.session.add(u)

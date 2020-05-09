@@ -10,9 +10,10 @@ class User(db.Model):
     tested = db.Column(db.Boolean)
     infected = db.Column(db.Boolean)
     high_risk = db.Column(db.Boolean)
-    # self.gender = db
-    # self.age = age
-    # self.rating = rating
+    gender = db.Column(db.String(12))
+    age = db.Column(db.Integer)
+    rating = db.Column(db.Integer)
+
 
     def __repr__(self):
         return str([self.username, self.zip_code, self.tested, self.infected])

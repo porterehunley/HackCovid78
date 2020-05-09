@@ -3,7 +3,8 @@ import json
 from app import app
 from app import db 
 from app.models import User
-
+from app.post import Post
+from app.reply import Reply
 from flask import Response
 from flask import jsonify
 from flask import request
@@ -59,6 +60,17 @@ def getUser(username):
     user = User.query.filter_by(username=username).first()
     print(user)
     return Response(json.dumps(user), status=200, mimetype='application/json')
+
+@app.route('/getpost/<zip_code>', methods=['GET'])
+def getPostLocation(zip_code):
+    users = User.query.filter_by(zip_code=zip_code)
+    posts = []
+    for user in users:
+        post = Post.query.filter_by(user=user.id)
+        posts.append(post)
+
+    return Response(json.dumps(posts), status=200, mimetype='application/json')
+
 
 
 @app.route('/viewUsers')

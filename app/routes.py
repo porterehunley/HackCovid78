@@ -45,6 +45,9 @@ class Gender:
 
 # userDB = UserDB()
 
+###Get/Posing replies
+###Get/Posting posts
+
 @app.route('/adduser/', methods=['POST'])
 def addUser():
     data = request.get_json() or {}

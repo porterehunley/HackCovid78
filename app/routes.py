@@ -46,9 +46,6 @@ class Gender:
 
 # userDB = UserDB()
 
-###Get/Posing replies
-###Get/Posting posts
-
 @app.route('/adduser/', methods=['POST'])
 def addUser():
     data = request.get_json() or {}
@@ -79,3 +76,17 @@ def getPostLocation(zip_code):
 @app.route('/viewUsers')
 def viewUsers():
     return str(userDB)
+
+@app.route('/addpost', methods = ['POST'])
+def addPost():
+    data = request.get_json() or {}
+    u = User(username=data['username'], email=data['email'], password_hash=data['password'], zip_code=data['zip_code'], 
+        tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'])
+    db.session.add(u)
+    
+@app.route('/addreply', methods = ['POST'])
+def addReply():
+    data = request.get_json() or {}
+    u = User(username=data['username'], email=data['email'], password_hash=data['password'], zip_code=data['zip_code'], 
+        tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'])
+    db.session.add(u)

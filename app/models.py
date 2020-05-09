@@ -6,10 +6,10 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    self.zip_code = d.Column(db.String(64))
-    self.tested = db.Column(db.Boolean)
-    self.infected = db.Column(db.Boolean)
-    self.high_risk = db.Column(db.Boolean)
+    zip_code = db.Column(db.String(64))
+    tested = db.Column(db.Boolean)
+    infected = db.Column(db.Boolean)
+    high_risk = db.Column(db.Boolean)
     # self.gender = db
     # self.age = age
     # self.rating = rating

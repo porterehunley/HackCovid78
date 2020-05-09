@@ -52,6 +52,7 @@ def addUser():
     u = User(username=data['username'], email=data['email'], password_hash=data['password'], zip_code=data['zip_code'], 
         tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'])
     db.session.add(u)
+    db.commit()
 
     return Response("{'status':'user added'}", status=200, mimetype='application/json')
 
@@ -71,6 +72,12 @@ def getPostLocation(zip_code):
 
     return Response(json.dumps(posts), status=200, mimetype='application/json')
 
+@app.route('/getreply/<post_id>')
+def getReplyFromPost(post_id):
+    replies = Reply.query.filter_by(post=post_id)
+    return Response(json.dumps(replies), status=200, mimetype='application/json')
+
+
 
 
 @app.route('/viewUsers')
@@ -82,9 +89,11 @@ def addPost():
     data = request.get_json() or {}
     u = Post(username=data['username'], email=data['email'], rating=data['rating'], body=data['body'])
     db.session.add(u)
-    
+    db.commit()
+
 @app.route('/addreply', methods = ['POST'])
 def addReply():
     data = request.get_json() or {}
     u = Reply(username=data['username'], email=data['email'], rating=data['rating'], body=data['body'])
     db.session.add(u)
+    db.commit()

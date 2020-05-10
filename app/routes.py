@@ -8,6 +8,7 @@ from app.reply import Reply
 from flask import Response
 from flask import jsonify
 from flask import request
+from flask import render_template
 
 import requests 
 
@@ -103,3 +104,14 @@ def addReply():
     return Response("{'status':'reply added'}", status=200, mimetype='application/json')
 
 #HERE BE HTML RENDERINGS
+@app.route('/post/')
+def showPost():
+    return(render_template('newpost.html'))
+
+@app.route('/login/')
+def login():
+    return(render_template('login.html'))
+
+@app.route('/')
+# def home():
+#     return(render_template('index.html'))

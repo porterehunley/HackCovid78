@@ -10,3 +10,13 @@ class Reply(db.Model):
 
     def __repr__(self):
         return str([self.username, self.body, self.email])
+
+    def to_dict(self):
+    	return {
+    		"id" : self.id,
+    		"username" : self.username,
+    		"post" : self.post,
+    		"email" : self.email,
+    		"rating" : self.rating,
+    		"body" : self.body
+    	}

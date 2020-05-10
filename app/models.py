@@ -17,3 +17,18 @@ class User(db.Model):
 
     def __repr__(self):
         return str([self.username, self.zip_code, self.tested, self.infected])
+
+    def to_dict(self):
+        return {
+            "id" : self.id,
+            "username" : self.username,
+            "email" : self.email,
+            "password" : self.password_hash,
+            "zip_code" : self.zip_code,
+            "tested" : self.tested,
+            "infected" : self.infected,
+            "high_risk" : self.high_risk,
+            "gender" : self.gender,
+            "age" : self.age,
+            "rating" : self.rating
+        }

@@ -50,9 +50,10 @@ class Gender:
 def addUser():
     data = request.get_json() or {}
     u = User(username=data['username'], email=data['email'], password_hash=data['password'], zip_code=data['zip_code'], 
-        tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'])
+        tested=data['tested'], infected=data['infected'], high_risk=data['high_risk'], rating=data['rating'], gender=data['gender'],
+        age=data['age'])
     db.session.add(u)
-    db.commit()
+    db.session.commit()
 
     return Response("{'status':'user added'}", status=200, mimetype='application/json')
 
@@ -60,22 +61,23 @@ def addUser():
 def getUser(username):
     user = User.query.filter_by(username=username).first()
     print(user)
-    return Response(json.dumps(user), status=200, mimetype='application/json')
+    return Response(json.dumps(user.to_dict()), status=200, mimetype='application/json')
 
 @app.route('/getpost/<zip_code>', methods=['GET'])
 def getPostLocation(zip_code):
     users = User.query.filter_by(zip_code=zip_code)
     posts = []
     for user in users:
-        post = Post.query.filter_by(user=user.id)
-        posts.append(post)
+        ps = Post.query.filter_by(user=user.username)
+        for p in ps:
+            posts.append(p.to_dict())
 
     return Response(json.dumps(posts), status=200, mimetype='application/json')
 
 @app.route('/getreply/<post_id>')
 def getReplyFromPost(post_id):
     replies = Reply.query.filter_by(post=post_id)
-    return Response(json.dumps(replies), status=200, mimetype='application/json')
+    return Response(json.dumps([x.to_dict() for x in replies]), status=200, mimetype='application/json')
 
 
 
@@ -84,16 +86,20 @@ def getReplyFromPost(post_id):
 def viewUsers():
     return str(userDB)
 
-@app.route('/addpost', methods = ['POST'])
+@app.route('/addpost/', methods = ['POST'])
 def addPost():
     data = request.get_json() or {}
-    u = Post(username=data['username'], email=data['email'], rating=data['rating'], body=data['body'])
+    u = Post(user=data['username'], email=data['email'], title=data['title'], rating=data['rating'], body=data['body'])
     db.session.add(u)
-    db.commit()
+    db.session.commit()
+    return Response("{'status':'post added'}", status=200, mimetype='application/json')
 
-@app.route('/addreply', methods = ['POST'])
+@app.route('/addreply/', methods = ['POST'])
 def addReply():
     data = request.get_json() or {}
-    u = Reply(username=data['username'], email=data['email'], rating=data['rating'], body=data['body'])
+    u = Reply(username=data['username'], post=data['post'], email=data['email'], rating=data['rating'], body=data['body'])
     db.session.add(u)
-    db.commit()
+    db.session.commit()
+    return Response("{'status':'reply added'}", status=200, mimetype='application/json')
+
+#HERE BE HTML RENDERINGS
